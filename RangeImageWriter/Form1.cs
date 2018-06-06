@@ -18,13 +18,9 @@ namespace RangeImageWriter
         #region lcms variables
         //LCMS Data
         byte[][] _pRectifiedRngData;
-
-        int PROF_INTERVAL = 5;
+        byte[][] _pIntData;
         int UINBPROFILES = 1000;
         int UIPROFILENBPOINTS = 2080;
-        int INTUINBPROFILES = 500;
-        int INTUIPROFILENBPOINTS = 1040;
-        int IMAGE_LENGTH;
         #endregion
         public Form1()
         {
@@ -75,31 +71,30 @@ namespace RangeImageWriter
 
             foreach (String file in FisFileList)
             {
-                UInt32 errorcode = LoadLCMSData(file);
-                String saveFilePath = file.Replace(".fis", ".png");
-                saveFilePath = saveFilePath.Replace("\\data\\", "\\imgData\\");
+                UInt32 errorcode = LoadLCMSRangeData(file);
+                UInt32 errorcode2 = LoadLCMSIntData(file);
+                String saveFilePathLeft = file.Replace(".fis", ".png");
+                saveFilePathLeft = saveFilePathLeft.Replace("\\Data\\", "\\imRangeData\\left\\");
+                String saveFilePathRight = saveFilePathLeft.Replace("\\left", "\\right");
+                String saveFilePathIntLeft = saveFilePathLeft.Replace("\\imRangeData", "\\imIntData");
+                String saveFilePathIntRight = saveFilePathIntLeft.Replace("\\left", "\\right");
 
-                byte[,] imageL = new byte[UINBPROFILES, UIPROFILENBPOINTS];
-                byte[,] imageR = new byte[UINBPROFILES, UIPROFILENBPOINTS];
+                byte[,] imRangeL = new byte[UINBPROFILES, UIPROFILENBPOINTS];
+                byte[,] imRangeR = new byte[UINBPROFILES, UIPROFILENBPOINTS];
+                byte[,] imIntL = new byte[UINBPROFILES, UIPROFILENBPOINTS];
+                byte[,] imIntR = new byte[UINBPROFILES, UIPROFILENBPOINTS];
 
-                rasterToMatrix(out imageL, out imageR);
-                byte[] temp = _pRectifiedRngData[0];
-
-                try
-                {
-                    ImageConverter imgConverter = new ImageConverter();
-
-                }
-                catch (Exception ex)
-                {
-
-                }
+                rasterToMatrix(out imRangeL, out imRangeR, out imIntL, out imIntR);
+                convertAndSave(imRangeL, saveFilePathLeft);
+                convertAndSave(imRangeR, saveFilePathRight);
+                convertAndSave(imIntL, saveFilePathIntLeft);
+                convertAndSave(imIntR, saveFilePathIntRight);
                 
 
             }
         }
 
-        private UInt32 LoadLCMSData(string fisfile)
+        private UInt32 LoadLCMSRangeData(string fisfile)
         {
 
             char[] curFileChar2 = new char[200];
@@ -144,12 +139,94 @@ namespace RangeImageWriter
 
             return 0;
         }
-        private void rasterToMatrix(out byte[,] rangeImL, out byte[,] rangeImR)
+
+        private UInt32 LoadLCMSIntData(string fisfile)
+        {
+
+            char[] curFileChar2 = new char[200];
+
+            for (int i = 0; i < fisfile.Length; i++)
+                curFileChar2[i] = fisfile[i];
+
+            curFileChar2[fisfile.Length] = '\0';
+
+            UInt32 errorcode = LCMSWrapper.LcmsOpenRoadSection(curFileChar2);
+            if (errorcode != 0)
+            {
+                LCMSWrapper.LcmsCloseRoadSection();
+                return errorcode;
+            }
+
+
+            int uiNbProfiles = UINBPROFILES;
+            int uiProfileNbPoints = UIPROFILENBPOINTS;
+
+            if (_pIntData == null)
+            {
+                _pIntData = new byte[2][];
+                _pIntData[0] = new byte[uiNbProfiles * uiProfileNbPoints];
+                _pIntData[1] = new byte[uiNbProfiles * uiProfileNbPoints];
+            }
+            else
+            {
+                Array.Clear(_pIntData[0], 0, uiNbProfiles * uiProfileNbPoints);
+                Array.Clear(_pIntData[1], 0, uiNbProfiles * uiProfileNbPoints);
+            }
+
+            errorcode = LCMSWrapper.LcmsGetIntData(_pIntData);
+            if (errorcode != 0)
+            {
+                LCMSWrapper.LcmsCloseRoadSection();
+                return errorcode;
+            }
+
+            LCMSWrapper.LcmsCloseRoadSection();
+
+
+            return 0;
+        }
+
+        private void rasterToMatrix(out byte[,] rangeImL, out byte[,] rangeImR, out byte[,] intImL, out byte[,] intImR)
         {
             rangeImL = new byte[UINBPROFILES,UIPROFILENBPOINTS];
             rangeImR = new byte[UINBPROFILES,UIPROFILENBPOINTS];
+            intImL = new byte[UINBPROFILES, UIPROFILENBPOINTS];
+            intImR = new byte[UINBPROFILES, UIPROFILENBPOINTS];
 
             Buffer.BlockCopy(_pRectifiedRngData[0], 0, rangeImL, 0, UINBPROFILES * UIPROFILENBPOINTS);
+            Buffer.BlockCopy(_pRectifiedRngData[1], 0, rangeImR, 0, UINBPROFILES * UIPROFILENBPOINTS);
+            Buffer.BlockCopy(_pIntData[0], 0, intImL, 0, UINBPROFILES * UIPROFILENBPOINTS);
+            Buffer.BlockCopy(_pIntData[1], 0, intImR, 0, UINBPROFILES * UIPROFILENBPOINTS);
+        }
+
+        private void convertAndSave(byte[,] inputImage, String saveFilePath)
+        {
+            //method to convert 2d byte array to bitmap
+            int width = UIPROFILENBPOINTS;
+            int height = UINBPROFILES;
+            int stride = width * 4;
+            int[,] integers = new int[height, width];
+
+            for (int x = 0; x < height; ++x)
+            {
+                for (int y = 0; y < width; ++y)
+                {
+                    byte[] bgra = new byte[] { inputImage[x, y], inputImage[x, y], inputImage[x, y], 255 };
+                    integers[x, y] = BitConverter.ToInt32(bgra, 0);
+                }
+            }
+
+            // Copy into bitmap
+            Bitmap bitmap;
+            unsafe
+            {
+                fixed (int* intPtr = &integers[0, 0])
+                {
+                    bitmap = new Bitmap(width, height, stride, PixelFormat.Format32bppRgb, new IntPtr(intPtr));
+                }
+            }
+
+            bitmap.Save(saveFilePath, ImageFormat.Png);
         }
     }
 }

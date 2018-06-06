@@ -78,7 +78,7 @@
             this.txtBoxOutputFlder.Name = "txtBoxOutputFlder";
             this.txtBoxOutputFlder.Size = new System.Drawing.Size(422, 20);
             this.txtBoxOutputFlder.TabIndex = 3;
-            this.txtBoxOutputFlder.Text = "C:\\Users\\vsr6\\Documents\\specialProblem\\imgData";
+            this.txtBoxOutputFlder.Text = "C:\\temp\\specialProblem\\imgData";
             // 
             // groupBox1
             // 
@@ -117,7 +117,7 @@
             this.txtBoxIPFldr.Name = "txtBoxIPFldr";
             this.txtBoxIPFldr.Size = new System.Drawing.Size(422, 20);
             this.txtBoxIPFldr.TabIndex = 3;
-            this.txtBoxIPFldr.Text = "C:\\Users\\vsr6\\Documents\\specialProblem\\data";
+            this.txtBoxIPFldr.Text = "C:\\temp\\specialProblem\\Data";
             // 
             // button2
             // 
