@@ -1,0 +1,10 @@
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\bin\Debug\RangeImageWriter.exe.config
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\bin\Debug\RangeImageWriter.exe
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\bin\Debug\RangeImageWriter.pdb
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\obj\Debug\RangeImageWriter.csprojAssemblyReference.cache
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\obj\Debug\RangeImageWriter.Form1.resources
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\obj\Debug\RangeImageWriter.Properties.Resources.resources
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\obj\Debug\RangeImageWriter.csproj.GenerateResource.cache
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\obj\Debug\RangeImageWriter.csproj.CoreCompileInputs.cache
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\obj\Debug\RangeImageWriter.exe
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\obj\Debug\RangeImageWriter.pdb
