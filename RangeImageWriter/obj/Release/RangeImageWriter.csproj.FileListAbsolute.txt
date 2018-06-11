@@ -1,0 +1,13 @@
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\obj\Release\RangeImageWriter.Form1.resources
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\obj\Release\RangeImageWriter.Properties.Resources.resources
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\obj\Release\RangeImageWriter.csproj.GenerateResource.cache
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\obj\Release\RangeImageWriter.csproj.CoreCompileInputs.cache
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\bin\Release\RangeImageWriter.exe.config
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\bin\Release\RangeImageWriter.exe
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\bin\Release\RangeImageWriter.pdb
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\obj\Release\RangeImageWriter.exe
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\obj\Release\RangeImageWriter.pdb
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\bin\Release\RangeImageWriter.exe.manifest
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\bin\Release\RangeImageWriter.application
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\obj\Release\RangeImageWriter.exe.manifest
+C:\Users\vsr6\source\repos\RangeImageWriter\RangeImageWriter\obj\Release\RangeImageWriter.application
